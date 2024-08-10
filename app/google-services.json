@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "16273107883",
+    "project_id": "nutriplan-b7201",
+    "storage_bucket": "nutriplan-b7201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16273107883:android:ee61123ffaa304300dc0ee",
+        "android_client_info": {
+          "package_name": "com.nourawesomeapps.mealmaestro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16273107883-p189sjs45e1g8741ere32i2kvi4mn1u1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nourawesomeapps.mealmaestro",
+            "certificate_hash": "71c4d542d2849e3c5be3a970dee252cddb6610ea"
+          }
+        },
+        {
+          "client_id": "16273107883-59st99lesdidla1a0cqpocfonq0k660t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGWwjVTYycPxlV4ZGr1hJLJElBmQQhhiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16273107883-59st99lesdidla1a0cqpocfonq0k660t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

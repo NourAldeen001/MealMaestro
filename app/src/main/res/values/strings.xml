@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Meal Maestro</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">\"16273107883-p189sjs45e1g8741ere32i2kvi4mn1u1.apps.googleusercontent.com\"</string>
+    <string name="API_KEY"> AIzaSyDiTif5jgq6rpRDztxSHaX0E3dSaLchk-0 </string>
+    <string name="favorites">Favorites</string>
+    <string name="categories">Categories</string>
+    <string name="countries">Countries</string>
+    <string name="home">Home</string>
+    <string name="calendar">Calendar</string>
+    <string name="instructions">- Instructions :</string>
+</resources>
