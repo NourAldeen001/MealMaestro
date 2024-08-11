@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.nourawesomeapps.mealmaestro.MealBottomSheetFragment
 import com.nourawesomeapps.mealmaestro.meal.MealActivity
 import com.nourawesomeapps.mealmaestro.databinding.FragmentHomeBinding
 import com.nourawesomeapps.mealmaestro.main.MainActivity
+import com.nourawesomeapps.mealmaestro.main.adapter.MostPopularMealsAdapter
 import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
 import com.nourawesomeapps.mealmaestro.model.Meal
 
@@ -19,6 +22,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var mostPopularMealsAdapter: MostPopularMealsAdapter
     private lateinit var randomMeal: Meal
 
     companion object {
@@ -32,6 +36,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         homeViewModel = (activity as MainActivity).homeViewModel
+        mostPopularMealsAdapter = MostPopularMealsAdapter()
     }
 
     override fun onCreateView(
@@ -49,6 +54,12 @@ class HomeFragment : Fragment() {
         observeRandomMealLiveData()
         onRandomMealClick()
 
+        homeViewModel.getPopularMeals()
+        preparePopularRecyclerView()
+        observePopularMealsLiveData()
+        onPopularMealItemClick()
+        onPopularMealItemLongClick()
+
     }
 
     private fun observeRandomMealLiveData() {
@@ -62,17 +73,42 @@ class HomeFragment : Fragment() {
 
     private fun onRandomMealClick() {
         binding.randomMealCard.setOnClickListener {
-            sendToMealActivity(randomMeal)
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra(MEAL_ID, randomMeal.idMeal)
+            intent.putExtra(MEAL_NAME, randomMeal.strMeal)
+            intent.putExtra(MEAL_THUMB, randomMeal.strMealThumb)
+            startActivity(intent)
         }
     }
 
-    private fun sendToMealActivity(meal: Meal) {
-        val intent = Intent(activity, MealActivity::class.java)
-        intent.putExtra(MEAL_ID, meal.idMeal)
-        intent.putExtra(MEAL_NAME, meal.strMeal)
-        intent.putExtra(MEAL_THUMB, meal.strMealThumb)
-        startActivity(intent)
+    private fun preparePopularRecyclerView() {
+        binding.popularMealsRecycler.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = mostPopularMealsAdapter
+        }
     }
 
+    private fun observePopularMealsLiveData() {
+        homeViewModel.observePopularMealsLiveData().observe(viewLifecycleOwner, Observer { meals ->
+            mostPopularMealsAdapter.differ.submitList(meals)
+        })
+    }
+
+    private fun onPopularMealItemClick() {
+        mostPopularMealsAdapter.onPopularMealItemClick = {
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra(MEAL_ID, it.idMeal)
+            intent.putExtra(MEAL_NAME, it.strMeal)
+            intent.putExtra(MEAL_THUMB, it.strMealThumb)
+            startActivity(intent)
+        }
+    }
+
+    private fun onPopularMealItemLongClick() {
+        mostPopularMealsAdapter.onPopularMealItemLongClick = {
+            val mealBottomSheetFragment = MealBottomSheetFragment.newInstance(mealId = it.idMeal)
+            mealBottomSheetFragment.show(childFragmentManager, "Meal Info")
+        }
+    }
 
 }
