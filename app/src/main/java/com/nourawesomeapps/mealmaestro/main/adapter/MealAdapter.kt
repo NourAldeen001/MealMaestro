@@ -11,6 +11,8 @@ import com.nourawesomeapps.mealmaestro.model.Meal
 
 class MealAdapter : RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
 
+    lateinit var onFavoriteItemClick: ((Meal) -> Unit)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         return MealViewHolder(MealItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -25,6 +27,9 @@ class MealAdapter : RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
             .load(favoriteMeal.strMealThumb)
             .into(holder.binding.mealImg)
         holder.binding.mealTv.text = favoriteMeal.strMeal
+        holder.itemView.setOnClickListener {
+            onFavoriteItemClick.invoke(favoriteMeal)
+        }
     }
 
     class MealViewHolder(val binding: MealItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)

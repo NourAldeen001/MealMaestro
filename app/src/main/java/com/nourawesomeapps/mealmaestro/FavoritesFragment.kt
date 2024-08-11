@@ -1,5 +1,6 @@
 package com.nourawesomeapps.mealmaestro
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +14,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.nourawesomeapps.mealmaestro.databinding.FragmentFavoritesBinding
 import com.nourawesomeapps.mealmaestro.main.MainActivity
 import com.nourawesomeapps.mealmaestro.main.adapter.MealAdapter
+import com.nourawesomeapps.mealmaestro.main.home.HomeFragment
 import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
+import com.nourawesomeapps.mealmaestro.meal.MealActivity
+import com.nourawesomeapps.mealmaestro.model.Meal
 
 
 class FavoritesFragment : Fragment() {
@@ -69,6 +73,8 @@ class FavoritesFragment : Fragment() {
         }
 
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.favoritesRecycler)
+
+        onFavoriteMealClick()
     }
 
     private fun prepareRecyclerView() {
@@ -82,5 +88,19 @@ class FavoritesFragment : Fragment() {
         viewModel.observeFavoriteMealsLiveData().observe(viewLifecycleOwner, Observer { mealList ->
             favoriteMealsAdapter.differ.submitList(mealList)
         })
+    }
+
+    private fun onFavoriteMealClick() {
+        favoriteMealsAdapter.onFavoriteItemClick = { meal ->
+            sendToMealActivity(meal)
+        }
+    }
+
+    private fun sendToMealActivity(meal: Meal) {
+        val intent = Intent(activity, MealActivity::class.java)
+        intent.putExtra(HomeFragment.MEAL_ID, meal.idMeal)
+        intent.putExtra(HomeFragment.MEAL_NAME, meal.strMeal)
+        intent.putExtra(HomeFragment.MEAL_THUMB, meal.strMealThumb)
+        startActivity(intent)
     }
 }

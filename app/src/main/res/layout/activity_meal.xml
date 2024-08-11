@@ -48,6 +48,17 @@
         android:backgroundTint="@color/primary"
         app:tint="@color/white"/>
 
+    <ImageButton
+        android:id="@+id/return_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/toolbar"
+        app:layout_anchorGravity="start|center"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:backgroundTint="@android:color/transparent"
+        app:tint="@color/white"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.nourawesomeapps.mealmaestro.R
 import com.nourawesomeapps.mealmaestro.meal.viewmodel.MealViewModel
 import com.nourawesomeapps.mealmaestro.databinding.ActivityMealBinding
 import com.nourawesomeapps.mealmaestro.db.MealDatabase
@@ -39,6 +41,7 @@ class MealActivity : AppCompatActivity() {
         observeMealDetailsLiveData()
 
         onFavoriteClick()
+        onReturnClick()
     }
 
 
@@ -55,6 +58,8 @@ class MealActivity : AppCompatActivity() {
             .into(binding.mealDetailImg)
 
         binding.collapsingToolbar.title = mealName
+        binding.collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.white))
+        binding.collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
     fun getVideoIdFromUrl(url: String): String? {
@@ -82,6 +87,12 @@ class MealActivity : AppCompatActivity() {
                 viewModel.insertMeal(it)
                 Toast.makeText(this, "Meal saved", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun onReturnClick() {
+        binding.returnBtn.setOnClickListener {
+            finish()
         }
     }
 }
