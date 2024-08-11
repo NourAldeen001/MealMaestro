@@ -7,14 +7,18 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.nourawesomeapps.mealmaestro.R
 import com.nourawesomeapps.mealmaestro.databinding.ActivityMainBinding
-import com.nourawesomeapps.mealmaestro.main.home.viewmodel.HomeViewModel
+import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModeFactory
+import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     val homeViewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
+        val mealDatabase = MealDatabase.getInstance(this)
+        val homeViewModelFactory = HomeViewModeFactory(mealDatabase)
+        ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

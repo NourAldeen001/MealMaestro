@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.nourawesomeapps.mealmaestro.meal.MealActivity
 import com.nourawesomeapps.mealmaestro.databinding.FragmentHomeBinding
 import com.nourawesomeapps.mealmaestro.main.MainActivity
-import com.nourawesomeapps.mealmaestro.main.home.viewmodel.HomeViewModel
+import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
 import com.nourawesomeapps.mealmaestro.model.Meal
 
 

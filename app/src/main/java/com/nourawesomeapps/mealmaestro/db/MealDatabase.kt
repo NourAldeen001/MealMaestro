@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.nourawesomeapps.mealmaestro.model.Meal
 
-@Database(entities = [Meal::class], version = 1)
+@Database(entities = [Meal::class], version = 2)
 @TypeConverters(MealTypeConverter::class)
 abstract class MealDatabase : RoomDatabase() {
     abstract fun mealDao() : MealDao
@@ -19,7 +19,7 @@ abstract class MealDatabase : RoomDatabase() {
         fun getInstance(context: Context) : MealDatabase {
             return INSTANCE ?: synchronized(this) {
                 val tempInstance = Room.databaseBuilder(
-                    context,
+                    context.applicationContext,
                     MealDatabase::class.java,
                     "meal_db"
                 ).fallbackToDestructiveMigration().build()

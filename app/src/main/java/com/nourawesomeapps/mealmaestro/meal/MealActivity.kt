@@ -2,6 +2,8 @@ package com.nourawesomeapps.mealmaestro.meal
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -68,7 +70,7 @@ class MealActivity : AppCompatActivity() {
             binding.areaTv.text = meal.strArea
             binding.instructionsStepsTv.text = meal.strInstructions
             binding.webView.settings.javaScriptEnabled = true
-            val videoId = getVideoIdFromUrl(meal.strYoutube)
+            val videoId = meal.strYoutube?.let { getVideoIdFromUrl(it) }
             binding.webView.loadUrl("https://www.youtube.com/embed/$videoId")
         })
     }
@@ -76,7 +78,9 @@ class MealActivity : AppCompatActivity() {
     private fun onFavoriteClick() {
         binding.addToFavoriteBtn.setOnClickListener {
             mealToSave?.let {
+                Log.d("Meal", mealToSave.toString())
                 viewModel.insertMeal(it)
+                Toast.makeText(this, "Meal saved", Toast.LENGTH_SHORT).show()
             }
         }
     }
