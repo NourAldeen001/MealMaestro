@@ -11,6 +11,8 @@ import com.nourawesomeapps.mealmaestro.model.CategoryMeal
 
 class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewHolder>() {
 
+    lateinit var onCategoryMealItemClick: ((CategoryMeal) -> Unit)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMealsViewHolder {
         return CategoryMealsViewHolder(MealItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -21,6 +23,9 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
             .load(categoryMeal.strMealThumb)
             .into(holder.binding.mealImg)
         holder.binding.mealTv.text = categoryMeal.strMeal
+        holder.itemView.setOnClickListener {
+            onCategoryMealItemClick.invoke(categoryMeal)
+        }
     }
 
     override fun getItemCount(): Int {

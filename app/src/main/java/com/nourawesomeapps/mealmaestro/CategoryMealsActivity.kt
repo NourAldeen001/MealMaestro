@@ -1,5 +1,6 @@
 package com.nourawesomeapps.mealmaestro
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nourawesomeapps.mealmaestro.databinding.ActivityCategoryMealsBinding
 import com.nourawesomeapps.mealmaestro.main.home.HomeFragment
+import com.nourawesomeapps.mealmaestro.meal.MealActivity
 
 class CategoryMealsActivity : AppCompatActivity() {
 
@@ -27,7 +29,7 @@ class CategoryMealsActivity : AppCompatActivity() {
 
         prepareMealsRecyclerView()
         observeMealsByCategoryLiveData()
-
+        onCategoryMealItemClick()
 
         onBackClick()
 
@@ -44,6 +46,18 @@ class CategoryMealsActivity : AppCompatActivity() {
         binding.mealsRecycler.apply {
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
             adapter = categoryMealsAdapter
+        }
+    }
+
+    private fun onCategoryMealItemClick() {
+        categoryMealsAdapter.onCategoryMealItemClick = {
+            val intent = Intent(this, MealActivity::class.java)
+            intent.apply {
+                putExtra(HomeFragment.MEAL_ID, it.idMeal)
+                putExtra(HomeFragment.MEAL_NAME, it.strMeal)
+                putExtra(HomeFragment.MEAL_THUMB, it.strMealThumb)
+            }
+            startActivity(intent)
         }
     }
 

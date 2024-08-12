@@ -50,13 +50,13 @@
 
     <ImageButton
         android:id="@+id/return_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         app:layout_anchor="@id/toolbar"
         app:layout_anchorGravity="start|center"
-        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:src="@drawable/ic_arrow_back"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@drawable/arrow_back"
         app:tint="@color/white"/>
 
     <androidx.core.widget.NestedScrollView
