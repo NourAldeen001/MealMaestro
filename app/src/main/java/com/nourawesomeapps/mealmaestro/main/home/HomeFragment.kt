@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.nourawesomeapps.mealmaestro.CategoryMealsActivity
 import com.nourawesomeapps.mealmaestro.MealBottomSheetFragment
 import com.nourawesomeapps.mealmaestro.meal.MealActivity
 import com.nourawesomeapps.mealmaestro.databinding.FragmentHomeBinding
 import com.nourawesomeapps.mealmaestro.main.MainActivity
+import com.nourawesomeapps.mealmaestro.main.adapter.CategoriesAdapter
 import com.nourawesomeapps.mealmaestro.main.adapter.MostPopularMealsAdapter
 import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
 import com.nourawesomeapps.mealmaestro.model.Meal
@@ -23,6 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var mostPopularMealsAdapter: MostPopularMealsAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var randomMeal: Meal
 
     companion object {
@@ -37,6 +41,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel = (activity as MainActivity).homeViewModel
         mostPopularMealsAdapter = MostPopularMealsAdapter()
+        categoriesAdapter = CategoriesAdapter()
     }
 
     override fun onCreateView(
@@ -59,6 +64,11 @@ class HomeFragment : Fragment() {
         observePopularMealsLiveData()
         onPopularMealItemClick()
         onPopularMealItemLongClick()
+
+        homeViewModel.getCategories()
+        prepareCategoriesRecyclerView()
+        observeCategoriesLiveData()
+        onCategoryItemClick()
 
     }
 
@@ -108,6 +118,27 @@ class HomeFragment : Fragment() {
         mostPopularMealsAdapter.onPopularMealItemLongClick = {
             val mealBottomSheetFragment = MealBottomSheetFragment.newInstance(mealId = it.idMeal)
             mealBottomSheetFragment.show(childFragmentManager, "Meal Info")
+        }
+    }
+
+    private fun observeCategoriesLiveData() {
+        homeViewModel.observeCategoriesLiveData().observe(viewLifecycleOwner, Observer {
+            categoriesAdapter.differ.submitList(it)
+        })
+    }
+
+    private fun prepareCategoriesRecyclerView() {
+        binding.categoriesRecycler.apply {
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            adapter = categoriesAdapter
+        }
+    }
+
+    private fun onCategoryItemClick() {
+        categoriesAdapter.onCategoryItemClick = {
+            val intent = Intent(activity, CategoryMealsActivity::class.java)
+            intent.putExtra(HomeFragment.CATEGORY_NAME, it.strCategory)
+            startActivity(intent)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.nourawesomeapps.mealmaestro.network
 
+import com.nourawesomeapps.mealmaestro.model.CategoryList
 import com.nourawesomeapps.mealmaestro.model.MealList
 import com.nourawesomeapps.mealmaestro.model.MealsByCategory
 import retrofit2.Call
@@ -16,5 +17,11 @@ interface MealApi {
 
     @GET("filter.php")
     fun getPopularMeals(@Query("c") categoryName: String) : Call<MealsByCategory>
+
+    @GET("categories.php")
+    fun getCategories() : Call<CategoryList>
+
+    @GET("filter.php")
+    fun getMealsByCategory(@Query("c") categoryName: String) : Call<MealsByCategory>
 
 }
