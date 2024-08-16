@@ -1,5 +1,6 @@
 package com.nourawesomeapps.mealmaestro.network
 
+import com.nourawesomeapps.mealmaestro.model.AreaList
 import com.nourawesomeapps.mealmaestro.model.CategoryList
 import com.nourawesomeapps.mealmaestro.model.MealList
 import com.nourawesomeapps.mealmaestro.model.MealsByCategory
@@ -23,5 +24,11 @@ interface MealApi {
 
     @GET("filter.php")
     fun getMealsByCategory(@Query("c") categoryName: String) : Call<MealsByCategory>
+
+    @GET("list.php")
+    fun getCountries(@Query("a") typeList: String) : Call<AreaList>
+
+    @GET("filter.php")
+    fun getMealsByArea(@Query("a") areaName: String) : Call<MealsByCategory>
 
 }

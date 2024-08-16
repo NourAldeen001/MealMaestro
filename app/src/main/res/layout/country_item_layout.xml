@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_160sdp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardUseCompatPadding="true"
+    android:elevation="@dimen/_2sdp">
+
+    <ImageView
+        android:id="@+id/country_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_160sdp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/country_tv"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:fontFamily="@font/awesomefont"
+        android:textAlignment="center"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/_15ssp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:text="Egyptian" />
+
+</androidx.cardview.widget.CardView>

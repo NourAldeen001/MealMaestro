@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MealMaestro"
         tools:targetApi="31">
         <activity
+            android:name=".AreaMealsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CategoryMealsActivity"
             android:exported="false" />
         <activity

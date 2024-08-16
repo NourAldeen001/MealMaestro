@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.model.Area
+import com.nourawesomeapps.mealmaestro.model.AreaList
 import com.nourawesomeapps.mealmaestro.model.Category
 import com.nourawesomeapps.mealmaestro.model.CategoryList
 import com.nourawesomeapps.mealmaestro.model.CategoryMeal
@@ -27,6 +29,7 @@ class HomeViewModel(
     private var bottomSheetMealLiveData = MutableLiveData<Meal>()
     private var categoriesLiveData = MutableLiveData<List<Category>>()
     private var favoriteMealsLiveData = mealDatabase.mealDao().getAllMeals()
+    private var countriesLiveData = MutableLiveData<List<Area>>()
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
@@ -84,6 +87,20 @@ class HomeViewModel(
         })
     }
 
+    fun getCountries() {
+        RetrofitInstance.api.getCountries("list").enqueue(object : Callback<AreaList> {
+            override fun onResponse(call: Call<AreaList>, response: Response<AreaList>) {
+                response.body()?.let {
+                    countriesLiveData.postValue(it.meals)
+                }
+            }
+
+            override fun onFailure(call: Call<AreaList>, t: Throwable) {
+                Log.d("HomeViewModel : Get Countries", t.message.toString())
+            }
+        })
+    }
+
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
             mealDatabase.mealDao().upsert(meal)
@@ -105,5 +122,7 @@ class HomeViewModel(
     fun observeCategoriesLiveData() : LiveData<List<Category>> = categoriesLiveData
 
     fun observeFavoriteMealsLiveData() : LiveData<List<Meal>> = favoriteMealsLiveData
+
+    fun observeCountriesLiveData() : LiveData<List<Area>> = countriesLiveData
 
 }
