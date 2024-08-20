@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.model.Meal
 import com.nourawesomeapps.mealmaestro.model.MealList
 import com.nourawesomeapps.mealmaestro.network.RetrofitInstance

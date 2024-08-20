@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.nourawesomeapps.mealmaestro.CategoryMealsActivity
 import com.nourawesomeapps.mealmaestro.MealBottomSheetFragment
+import com.nourawesomeapps.mealmaestro.R
 import com.nourawesomeapps.mealmaestro.meal.MealActivity
 import com.nourawesomeapps.mealmaestro.databinding.FragmentHomeBinding
 import com.nourawesomeapps.mealmaestro.main.MainActivity
@@ -70,6 +72,7 @@ class HomeFragment : Fragment() {
         observeCategoriesLiveData()
         onCategoryItemClick()
 
+        onSearchIconClick()
     }
 
     private fun observeRandomMealLiveData() {
@@ -139,6 +142,12 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, CategoryMealsActivity::class.java)
             intent.putExtra(HomeFragment.CATEGORY_NAME, it.strCategory)
             startActivity(intent)
+        }
+    }
+
+    private fun onSearchIconClick() {
+        binding.homeSearchImg.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 

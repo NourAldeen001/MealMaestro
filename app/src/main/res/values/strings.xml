@@ -10,5 +10,11 @@
     <string name="home">Home</string>
     <string name="calendar">Calendar</string>
     <string name="instructions">- Instructions :</string>
-    <string name="read_more">Read More ...</string>
+    <string name="read_more">Read More …</string>
+    <string name="search_meals">Search Meals …</string>
+    <string-array name="filter_options">
+        <item>Category</item>
+        <item>Country</item>
+        <item>Ingredient</item>
+    </string-array>
 </resources>

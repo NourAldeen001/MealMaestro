@@ -1,4 +1,4 @@
-package com.nourawesomeapps.mealmaestro.db
+package com.nourawesomeapps.mealmaestro.db.mealdb
 
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters

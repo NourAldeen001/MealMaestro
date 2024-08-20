@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.nourawesomeapps.mealmaestro.R
 import com.nourawesomeapps.mealmaestro.meal.viewmodel.MealViewModel
 import com.nourawesomeapps.mealmaestro.databinding.ActivityMealBinding
-import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.main.home.HomeFragment
 import com.nourawesomeapps.mealmaestro.meal.viewmodel.MealViewModelFactory
 import com.nourawesomeapps.mealmaestro.model.Meal

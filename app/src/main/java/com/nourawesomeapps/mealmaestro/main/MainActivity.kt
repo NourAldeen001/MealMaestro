@@ -7,7 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.nourawesomeapps.mealmaestro.R
 import com.nourawesomeapps.mealmaestro.databinding.ActivityMainBinding
-import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModeFactory
 import com.nourawesomeapps.mealmaestro.main.viewmodel.HomeViewModel
 

@@ -1,4 +1,4 @@
-package com.nourawesomeapps.mealmaestro.db
+package com.nourawesomeapps.mealmaestro.db.mealdb
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

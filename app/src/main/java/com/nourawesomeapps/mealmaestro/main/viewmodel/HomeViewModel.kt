@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.model.Area
 import com.nourawesomeapps.mealmaestro.model.AreaList
 import com.nourawesomeapps.mealmaestro.model.Category
@@ -30,6 +30,12 @@ class HomeViewModel(
     private var categoriesLiveData = MutableLiveData<List<Category>>()
     private var favoriteMealsLiveData = mealDatabase.mealDao().getAllMeals()
     private var countriesLiveData = MutableLiveData<List<Area>>()
+    private var _mealsByCategory: MutableLiveData<List<CategoryMeal>> = MutableLiveData()
+    val mealsByCategory: LiveData<List<CategoryMeal>> = _mealsByCategory
+    private var _mealsByArea: MutableLiveData<List<CategoryMeal>> = MutableLiveData()
+    val mealsByArea: LiveData<List<CategoryMeal>> = _mealsByArea
+    private var _mealsByIngredient: MutableLiveData<List<CategoryMeal>> = MutableLiveData()
+    val mealsByIngredient: LiveData<List<CategoryMeal>> = _mealsByIngredient
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
@@ -97,6 +103,48 @@ class HomeViewModel(
 
             override fun onFailure(call: Call<AreaList>, t: Throwable) {
                 Log.d("HomeViewModel : Get Countries", t.message.toString())
+            }
+        })
+    }
+
+    fun getMealsByCategory(categoryName: String) {
+        RetrofitInstance.api.getMealsByCategory(categoryName).enqueue(object : Callback<MealsByCategory> {
+            override fun onResponse(call: Call<MealsByCategory>, response: Response<MealsByCategory>) {
+                response.body()?.let {
+                    _mealsByCategory.postValue(it.meals)
+                }
+            }
+
+            override fun onFailure(call: Call<MealsByCategory>, t: Throwable) {
+                Log.d("HomeViewModel : Meals By Category", t.message.toString())
+            }
+        })
+    }
+
+    fun getMealsByArea(areaName: String) {
+        RetrofitInstance.api.getMealsByArea(areaName).enqueue(object : Callback<MealsByCategory> {
+            override fun onResponse(call: Call<MealsByCategory>, response: Response<MealsByCategory>) {
+                response.body()?.let {
+                    _mealsByArea.postValue(it.meals)
+                }
+            }
+
+            override fun onFailure(call: Call<MealsByCategory>, t: Throwable) {
+                Log.d("HomeViewModel : Meals By Area", t.message.toString())
+            }
+        })
+    }
+
+    fun getMealsByIngredient(ingredient: String) {
+        RetrofitInstance.api.getMealsByIngredient(ingredient).enqueue(object : Callback<MealsByCategory> {
+            override fun onResponse(call: Call<MealsByCategory>, response: Response<MealsByCategory>) {
+                response.body()?.let {
+                    _mealsByIngredient.postValue(it.meals)
+                }
+            }
+
+            override fun onFailure(call: Call<MealsByCategory>, t: Throwable) {
+                Log.d("HomeViewModel : Meals By Ingredient", t.message.toString())
             }
         })
     }

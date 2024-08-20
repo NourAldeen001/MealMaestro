@@ -9,12 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.nourawesomeapps.mealmaestro.main.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/categoriesFragment"
-        android:name="com.nourawesomeapps.mealmaestro.CategoriesFragment"
-        android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.nourawesomeapps.mealmaestro.FavoritesFragment"
@@ -30,5 +29,10 @@
         android:name="com.nourawesomeapps.mealmaestro.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.nourawesomeapps.mealmaestro.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 
 </navigation>

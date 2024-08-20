@@ -12,11 +12,6 @@
         android:icon="@drawable/ic_favorite"/>
 
     <item
-        android:id="@+id/categoriesFragment"
-        android:title="@string/categories"
-        android:icon="@drawable/ic_category"/>
-
-    <item
         android:id="@+id/countriesFragment"
         android:title="@string/countries"
         android:icon="@drawable/ic_location"/>

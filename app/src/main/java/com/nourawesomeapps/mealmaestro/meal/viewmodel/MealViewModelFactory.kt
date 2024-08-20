@@ -2,7 +2,7 @@ package com.nourawesomeapps.mealmaestro.meal.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nourawesomeapps.mealmaestro.db.MealDatabase
+import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 
 class MealViewModelFactory(
     private val mealDatabase: MealDatabase
