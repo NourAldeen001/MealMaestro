@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.model.Meal
 import com.nourawesomeapps.mealmaestro.model.MealList
@@ -15,6 +16,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MealViewModel(private val mealDatabase: MealDatabase) : ViewModel() {
+
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
 
     private var mealDetailsLiveData = MutableLiveData<Meal>()
 
@@ -36,6 +39,7 @@ class MealViewModel(private val mealDatabase: MealDatabase) : ViewModel() {
 
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
+            meal.userId = userId
             mealDatabase.mealDao().upsert(meal)
         }
     }

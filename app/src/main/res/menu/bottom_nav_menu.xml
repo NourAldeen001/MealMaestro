@@ -21,4 +21,9 @@
         android:title="@string/calendar"
         android:icon="@drawable/ic_calendar"/>
 
+    <item
+        android:id="@+id/profileFragment"
+        android:title="@string/profile"
+        android:icon="@drawable/ico_person"/>
+
 </menu>

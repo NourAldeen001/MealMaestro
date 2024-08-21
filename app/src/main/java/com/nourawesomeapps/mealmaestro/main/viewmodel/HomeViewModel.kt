@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.model.Area
 import com.nourawesomeapps.mealmaestro.model.AreaList
@@ -24,11 +25,13 @@ class HomeViewModel(
     private val mealDatabase: MealDatabase
 ) : ViewModel() {
 
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
+
     private var randomMealLiveData = MutableLiveData<Meal>()
     private var popularMealsLiveData = MutableLiveData<List<CategoryMeal>>()
     private var bottomSheetMealLiveData = MutableLiveData<Meal>()
     private var categoriesLiveData = MutableLiveData<List<Category>>()
-    private var favoriteMealsLiveData = mealDatabase.mealDao().getAllMeals()
+    private var favoriteMealsLiveData = userId?.let { mealDatabase.mealDao().getAllMeals(it) }
     private var countriesLiveData = MutableLiveData<List<Area>>()
     private var _mealsByCategory: MutableLiveData<List<CategoryMeal>> = MutableLiveData()
     val mealsByCategory: LiveData<List<CategoryMeal>> = _mealsByCategory
@@ -151,13 +154,16 @@ class HomeViewModel(
 
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
+            meal.userId = userId
             mealDatabase.mealDao().upsert(meal)
         }
     }
 
-    fun deleteMeal(meal: Meal) {
+    fun deleteMeal(mealId: String) {
         viewModelScope.launch {
-            mealDatabase.mealDao().delete(meal)
+            if (userId != null) {
+                mealDatabase.mealDao().delete(mealId, userId)
+            }
         }
     }
 
@@ -169,7 +175,7 @@ class HomeViewModel(
 
     fun observeCategoriesLiveData() : LiveData<List<Category>> = categoriesLiveData
 
-    fun observeFavoriteMealsLiveData() : LiveData<List<Meal>> = favoriteMealsLiveData
+    fun observeFavoriteMealsLiveData() : LiveData<List<Meal>>? = favoriteMealsLiveData
 
     fun observeCountriesLiveData() : LiveData<List<Area>> = countriesLiveData
 

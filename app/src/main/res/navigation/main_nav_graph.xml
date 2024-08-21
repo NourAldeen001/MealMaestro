@@ -34,5 +34,10 @@
         android:name="com.nourawesomeapps.mealmaestro.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.nourawesomeapps.mealmaestro.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

@@ -14,10 +14,10 @@ interface MealDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(meal: Meal)
 
-    @Delete
-    suspend fun delete(meal: Meal)
+    @Query("DELETE FROM meal_table WHERE userId = :userId AND idMeal = :mealId")
+    suspend fun delete(mealId: String, userId: String)
 
-    @Query("SELECT * FROM meal_table")
-    fun getAllMeals() : LiveData<List<Meal>>
+    @Query("SELECT * FROM meal_table WHERE userId == :userId")
+    fun getAllMeals(userId: String) : LiveData<List<Meal>>
 
 }

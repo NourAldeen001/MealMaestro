@@ -11,19 +11,32 @@
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:padding="10dp"
+        android:hint="@string/email"
+        android:textColorHint="@color/accent"
+        android:textColor="@color/accent"
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/edit_text_back"  />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:padding="10dp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:hint="@string/password"
+        android:textColorHint="@color/accent"
+        android:textColor="@color/accent"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_back" />
 
     <Button
         android:id="@+id/signupButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up" />
+        android:text="@string/sign_up"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/button_back"/>
 
 </LinearLayout>

@@ -1,7 +1,10 @@
 package com.nourawesomeapps.mealmaestro.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,6 +30,8 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesEditor: Editor
 
     private val signInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -40,14 +45,15 @@ class LoginFragment : Fragment() {
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 // Google Sign-In failed, update UI appropriately
-                Toast.makeText(activity, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sharedPreferences = requireContext().getSharedPreferences("IS_LOGGED", Context.MODE_PRIVATE)
+        sharedPreferencesEditor = sharedPreferences.edit()
     }
 
     override fun onCreateView(
@@ -63,6 +69,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+
+        goToHome()
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -102,8 +110,9 @@ class LoginFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
                     // Navigate to next fragment or show success message
+                    sharedPreferencesEditor.putBoolean("isLoggedIn", true)
+                    sharedPreferencesEditor.apply()
                     goToHome()
                 } else {
                     Toast.makeText(activity, "Authentication Failed.", Toast.LENGTH_SHORT).show()
@@ -115,8 +124,9 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
                     // Navigate to next fragment or show success message
+                    sharedPreferencesEditor.putBoolean("isLoggedIn", true)
+                    sharedPreferencesEditor.apply()
                     goToHome()
                 } else {
                     Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
@@ -129,8 +139,9 @@ class LoginFragment : Fragment() {
         auth.signInAnonymously()
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
                     // Navigate to next fragment or show success message
+                    sharedPreferencesEditor.putBoolean("isLoggedIn", true)
+                    sharedPreferencesEditor.apply()
                     goToHome()
                 } else {
                     Toast.makeText(activity, "Anonymous Authentication Failed.", Toast.LENGTH_SHORT).show()
@@ -143,9 +154,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToHome() {
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
     }
 
 }

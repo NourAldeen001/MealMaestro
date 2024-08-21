@@ -5,29 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.nourawesomeapps.mealmaestro.R
+import com.nourawesomeapps.mealmaestro.databinding.FragmentSignUpBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SignUpFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignUpFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentSignUpBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        auth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -35,26 +28,50 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        binding = FragmentSignUpBinding.inflate(inflater)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUpFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.signupButton.setOnClickListener {
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(context, "Email or Password cannot be empty", Toast.LENGTH_LONG).show()
+            }
+            else {
+                registerUser(email, password)
+            }
+        }
+    }
+
+    private fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+                    goToLogin()
+                } else {
+                    val exception = task.exception
+                    when (exception) {
+                        is FirebaseAuthUserCollisionException -> {
+                            Toast.makeText(context, "This email is already in use.", Toast.LENGTH_SHORT).show()
+                        }
+                        is FirebaseAuthWeakPasswordException -> {
+                            Toast.makeText(context, "Weak password: ${exception.reason}", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Toast.makeText(context, "Registration failed: ${exception?.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
+    }
+
+    private fun goToLogin() {
+        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
     }
 }

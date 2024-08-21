@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.nourawesomeapps.mealmaestro.model.Meal
 
-@Database(entities = [Meal::class], version = 2)
+@Database(entities = [Meal::class], version = 3)
 @TypeConverters(MealTypeConverter::class)
 abstract class MealDatabase : RoomDatabase() {
     abstract fun mealDao() : MealDao

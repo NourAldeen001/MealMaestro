@@ -62,7 +62,7 @@ class FavoritesFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val meal = favoriteMealsAdapter.differ.currentList.get(position)
-                viewModel.deleteMeal(meal)
+                viewModel.deleteMeal(meal.idMeal)
                 Snackbar.make(requireView(), "Meal deleted", Snackbar.LENGTH_LONG).setAction(
                     "Undo",
                     View.OnClickListener {
@@ -85,7 +85,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun observeFavoriteMeals() {
-        viewModel.observeFavoriteMealsLiveData().observe(viewLifecycleOwner, Observer { mealList ->
+        viewModel.observeFavoriteMealsLiveData()?.observe(viewLifecycleOwner, Observer { mealList ->
             favoriteMealsAdapter.differ.submitList(mealList)
         })
     }
