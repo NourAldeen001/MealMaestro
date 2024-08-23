@@ -1,4 +1,4 @@
-package com.nourawesomeapps.mealmaestro.db.mealdb
+package com.nourawesomeapps.mealmaestro.db.mealplandb
 
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.nourawesomeapps.mealmaestro.model.Meal
 
 @TypeConverters
-class MealTypeConverter {
+class MealPlanConverter {
 
     @TypeConverter
     fun fromMeal(meal: Meal): String {

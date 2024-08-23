@@ -1,33 +1,31 @@
-package com.nourawesomeapps.mealmaestro.db.mealdb
+package com.nourawesomeapps.mealmaestro.db.mealplandb
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.nourawesomeapps.mealmaestro.model.MealEntity
+import com.nourawesomeapps.mealmaestro.model.DailyMealPlan
 
-@Database(entities = [MealEntity::class], version = 5)
-@TypeConverters(MealTypeConverter::class)
-abstract class MealDatabase : RoomDatabase() {
-    abstract fun mealDao() : MealDao
+@Database(entities = [DailyMealPlan::class], version = 3)
+@TypeConverters(MealPlanConverter::class)
+abstract class MealPlanDatabase : RoomDatabase() {
+    abstract fun MealPlanDao(): MealPlanDao
 
     companion object {
         @Volatile
-        private var INSTANCE: MealDatabase? = null
+        private var INSTANCE: MealPlanDatabase? = null
 
-        fun getInstance(context: Context) : MealDatabase {
+        fun getInstance(context: Context) : MealPlanDatabase {
             return INSTANCE ?: synchronized(this) {
                 val tempInstance = Room.databaseBuilder(
                     context.applicationContext,
-                    MealDatabase::class.java,
-                    "meal_db"
+                    MealPlanDatabase::class.java,
+                    "meal_plan_db"
                 ).fallbackToDestructiveMigration().build()
                 INSTANCE = tempInstance
                 tempInstance
             }
         }
-
     }
-
 }

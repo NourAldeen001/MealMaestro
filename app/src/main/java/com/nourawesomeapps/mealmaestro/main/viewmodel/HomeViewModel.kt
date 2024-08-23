@@ -13,6 +13,7 @@ import com.nourawesomeapps.mealmaestro.model.Category
 import com.nourawesomeapps.mealmaestro.model.CategoryList
 import com.nourawesomeapps.mealmaestro.model.CategoryMeal
 import com.nourawesomeapps.mealmaestro.model.Meal
+import com.nourawesomeapps.mealmaestro.model.MealEntity
 import com.nourawesomeapps.mealmaestro.model.MealList
 import com.nourawesomeapps.mealmaestro.model.MealsByCategory
 import com.nourawesomeapps.mealmaestro.network.RetrofitInstance
@@ -154,8 +155,7 @@ class HomeViewModel(
 
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
-            meal.userId = userId
-            mealDatabase.mealDao().upsert(meal)
+            mealDatabase.mealDao().upsert(MealEntity(userId.toString(), meal))
         }
     }
 

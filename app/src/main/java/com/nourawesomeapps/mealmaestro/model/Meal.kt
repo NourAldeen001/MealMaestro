@@ -3,11 +3,8 @@ package com.nourawesomeapps.mealmaestro.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "meal_table")
 data class Meal(
     val dateModified: Any?,
-    var userId: String?,
-    @PrimaryKey
     val idMeal: String,
     val strArea: String?,
     val strCategory: String?,

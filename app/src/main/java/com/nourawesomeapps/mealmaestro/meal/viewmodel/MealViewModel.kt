@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.nourawesomeapps.mealmaestro.db.mealdb.MealDatabase
 import com.nourawesomeapps.mealmaestro.model.Meal
+import com.nourawesomeapps.mealmaestro.model.MealEntity
 import com.nourawesomeapps.mealmaestro.model.MealList
 import com.nourawesomeapps.mealmaestro.network.RetrofitInstance
 import kotlinx.coroutines.launch
@@ -39,8 +40,7 @@ class MealViewModel(private val mealDatabase: MealDatabase) : ViewModel() {
 
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
-            meal.userId = userId
-            mealDatabase.mealDao().upsert(meal)
+            mealDatabase.mealDao().upsert(MealEntity(userId.toString(), meal))
         }
     }
 }
